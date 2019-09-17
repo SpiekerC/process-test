@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0j8vuhv" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.2.3">
+  <bpmn:process id="base-test-with-io" name="Base test with IO" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0ei7paf</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0ei7paf" sourceRef="StartEvent_1" targetRef="Task_13482va" />
+    <bpmn:scriptTask id="Task_13482va" name="Base" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0ei7paf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ldfwch</bpmn:outgoing>
+      <bpmn:script>execution.setVariable("variable", "base");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1ldfwch" sourceRef="Task_13482va" targetRef="ExclusiveGateway_00abul3" />
+    <bpmn:parallelGateway id="ExclusiveGateway_00abul3">
+      <bpmn:incoming>SequenceFlow_1ldfwch</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0xn13jn</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1wxjdc5</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0xn13jn" sourceRef="ExclusiveGateway_00abul3" targetRef="Task_0s2kokv" />
+    <bpmn:sequenceFlow id="SequenceFlow_1wxjdc5" sourceRef="ExclusiveGateway_00abul3" targetRef="Task_0xpjbsr" />
+    <bpmn:scriptTask id="Task_0s2kokv" name="Step 1.1" scriptFormat="groovy">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="variable">${execution.getVariableLocal("variable")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0xn13jn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1tw22uj</bpmn:outgoing>
+      <bpmn:script>execution.setVariableLocal("variable", "1");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Task_0xpjbsr" name="Step 1.2" scriptFormat="groovy">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:outputParameter name="variable">${execution.getVariableLocal("variable")}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1wxjdc5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o6p9p3</bpmn:outgoing>
+      <bpmn:script>execution.setVariableLocal("variable", "2");</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1tw22uj" sourceRef="Task_0s2kokv" targetRef="Wait-1" />
+    <bpmn:sequenceFlow id="SequenceFlow_0o6p9p3" sourceRef="Task_0xpjbsr" targetRef="Wait-2" />
+    <bpmn:receiveTask id="Wait-1" name="Task">
+      <bpmn:incoming>SequenceFlow_1tw22uj</bpmn:incoming>
+    </bpmn:receiveTask>
+    <bpmn:receiveTask id="Wait-2" name="Task">
+      <bpmn:incoming>SequenceFlow_0o6p9p3</bpmn:incoming>
+    </bpmn:receiveTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="base-test-with-io">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="212" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ei7paf_di" bpmnElement="SequenceFlow_0ei7paf">
+        <di:waypoint x="215" y="230" />
+        <di:waypoint x="270" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0nmv1jh_di" bpmnElement="Task_13482va">
+        <dc:Bounds x="270" y="190" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ldfwch_di" bpmnElement="SequenceFlow_1ldfwch">
+        <di:waypoint x="370" y="230" />
+        <di:waypoint x="425" y="230" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ParallelGateway_1gt612w_di" bpmnElement="ExclusiveGateway_00abul3">
+        <dc:Bounds x="425" y="205" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0xn13jn_di" bpmnElement="SequenceFlow_0xn13jn">
+        <di:waypoint x="450" y="205" />
+        <di:waypoint x="450" y="100" />
+        <di:waypoint x="530" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1wxjdc5_di" bpmnElement="SequenceFlow_1wxjdc5">
+        <di:waypoint x="450" y="255" />
+        <di:waypoint x="450" y="340" />
+        <di:waypoint x="530" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_07dfei3_di" bpmnElement="Task_0s2kokv">
+        <dc:Bounds x="530" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_0e366g9_di" bpmnElement="Task_0xpjbsr">
+        <dc:Bounds x="530" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1tw22uj_di" bpmnElement="SequenceFlow_1tw22uj">
+        <di:waypoint x="630" y="100" />
+        <di:waypoint x="700" y="100" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o6p9p3_di" bpmnElement="SequenceFlow_0o6p9p3">
+        <di:waypoint x="630" y="340" />
+        <di:waypoint x="700" y="340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ReceiveTask_0rgfznk_di" bpmnElement="Wait-1">
+        <dc:Bounds x="700" y="60" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ReceiveTask_1vy2zst_di" bpmnElement="Wait-2">
+        <dc:Bounds x="700" y="300" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
