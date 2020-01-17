@@ -11,7 +11,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- set the version for camunda BPM here -->
-		<version.camunda>7.11.0</version.camunda>
+		<version.camunda>7.12.0</version.camunda>
 		<version.junit>4.11</version.junit>
 		<version.h2>1.4.190</version.h2>
 		<version.assertj>2.9.0</version.assertj>
@@ -21,7 +21,7 @@
 
 		<!-- set the plugin versions here -->
 		<version.plugin.compiler>3.1</version.plugin.compiler>
-        <groovy.version>2.4.13</groovy.version>
+		<groovy.version>2.4.13</groovy.version>
 	</properties>
 
 
@@ -43,6 +43,17 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<!-- Required to use Spin dataformat support in unit tests -->
+		<dependency>
+			<groupId>org.camunda.spin</groupId>
+			<artifactId>camunda-spin-dataformat-all</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.camunda.bpm</groupId>
+			<artifactId>camunda-engine-plugin-spin</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 
 		<!-- camunda process engine -->
@@ -125,30 +136,30 @@
 			<scope>provided</scope>
 			<version>${version.h2}</version>
 		</dependency>
-		
-		<!--  groovy -->
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.version}</version>
-        </dependency>
+
+		<!-- groovy -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>${groovy.version}</version>
+		</dependency>
 
 	</dependencies>
-	 <build>
+	<build>
 
-        <plugins>
+		<plugins>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 
-        </plugins>
+		</plugins>
 
-    </build>
-	
+	</build>
+
 </project>
