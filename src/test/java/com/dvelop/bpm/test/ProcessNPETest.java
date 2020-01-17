@@ -1,6 +1,7 @@
 package com.dvelop.bpm.test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -33,22 +34,26 @@ public class ProcessNPETest {
                 .processInstanceId(instance.getId())
                 .activityId("receive")
                 .singleResult();
-        
+
         assertNotNull(execution);
 
         futures.add(executors.submit(() -> {
             runtimeService.signal(execution.getId());
         }));
-        
+
         futures.add(executors.submit(() -> {
-           runtimeService.deleteProcessInstance(instance.getId(), "Test ended");
+            try {
+                runtimeService.deleteProcessInstance(instance.getId(), "Test ended");
+            } catch (NullPointerException e) {
+                fail("The NPE occured!!!");
+            }
         }));
-        
+
         futures.forEach(t -> {
             try {
                 t.get();
             } catch (Exception e) {
-               throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
         });
 
